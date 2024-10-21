@@ -8,6 +8,7 @@ void init_grille(int grille[9][9], int n) {
     }
 }
 
+
 int main() {
     int grille[9][9];
     int n=6;
