@@ -111,4 +111,5 @@ int main() {
     afficher_grille(grille, n);
 
     return 0;
+    
 }
