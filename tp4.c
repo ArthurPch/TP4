@@ -56,7 +56,8 @@ void afficher_grille(int grille[9][9], int n) {
 
 int main() {
     int grille[9][9];  
-    int n = 4;        
+    int n = 4;
+            
 
     init_grille(grille, n);   
     printf("Grille initiale :\n");
