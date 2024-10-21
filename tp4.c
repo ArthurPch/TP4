@@ -17,7 +17,7 @@ int remplirGrille(int grille[9][9],int n){
         scanf("%d %d %d", &colonne, &ligne, &chiffre);
 
         
-        if (colonne >= 0 && colonne <= n && ligne >= 0 && ligne <= n && chiffre >= 1 && chiffre <= 9) {
+        if (colonne >= 0 && ligne >= 0 && chiffre <= 9) {
             grille[ligne][colonne] = chiffre;  
         } else {
             printf("Colonne, ligne ou chiffre invalides. Veuillez reessayer.\n");
@@ -54,10 +54,45 @@ void afficher_grille(int grille[9][9], int n) {
     }
 }
 
+void verificationGrille(int grille[9][9], int n) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (grille[i][j] < 0) {
+                printf("Erreur : Chiffre negatif a la colonne %d, ligne %d. Veuillez entrer un nombre positif.\n", j, i);
+            }
+            else if (grille[i][j]>n)
+            {
+                printf("Erreur : Chiffre trop grand a    la colonne %d, ligne %d. Veuillez entrer un nombre inferieur ou egal a %d.\n", j, i,n);
+            }
+            
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            for (int k = j + 1; k < n; k++) {
+                if (grille[i][j] != 0 && grille[i][j] == grille[i][k]) {
+                    printf("Erreur : Le chiffre %d est répété dans la ligne %d, colonne %d et colonne %d.\n", grille[i][j], i, j, k);
+                }
+            }
+        }
+    }
+    
+    for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int k = i + 1; k < n; k++) {
+                if (grille[i][j] != 0 && grille[i][j] == grille[k][j]) {
+                    printf("Erreur : Le chiffre %d est répété dans la colonne %d, ligne %d et ligne %d.\n", grille[i][j], j, i, k);
+                }
+            }
+        }
+    }
+}
+
 int main() {
     int grille[9][9];  
     int n = 4;
-            
+
 
     init_grille(grille, n);   
     printf("Grille initiale :\n");
@@ -66,6 +101,8 @@ int main() {
     remplirGrille(grille, n);
     printf("Grille modifiee :\n");
     afficher_grille(grille, n);
+
+    verificationGrille(grille,n);
 
     return 0;
 }
