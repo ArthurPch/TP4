@@ -34,8 +34,6 @@ void afficher_grille(int grille[9][9], int n) {
 }
 
 int verificationGrille(int grille[9][9], int n) {
-    int erreur = 0;
-
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             for (int k = j + 1; k < n; k++) {
@@ -56,7 +54,7 @@ int verificationGrille(int grille[9][9], int n) {
         }
     }
 
-    return erreur; 
+    return 0; 
 }
 
 void generer_grille_aleatoire(int grille[9][9], int n, int niveau) {
@@ -89,44 +87,48 @@ void generer_grille_aleatoire(int grille[9][9], int n, int niveau) {
     }
 }
 
-int remplirGrille(int grille[9][9], int n) {
+void remplirGrille(int grille[9][9], int n) {
     int colonne, ligne, chiffre;
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            while (grille[i][j] == 0) {
-                printf("Mettre le numero de la colonne (0 a %d), de la ligne (0 a %d) et le chiffre souhaite (1 a %d) : ", n-1, n-1, n);
-                scanf("%d %d %d", &colonne, &ligne, &chiffre);
+    while (1) {
+        printf("Mettre le numero de la colonne (0 a %d), de la ligne (0 a %d) et le chiffre souhaite (1 a %d) (ou entrez -1 pour quitter) : ", n-1, n-1, n);
+        scanf("%d", &colonne);
+        
+        
+        if (colonne == -1) {
+            printf("Arret de l'initialisation manuelle.\n");
+            break;
+        }
 
-                if (colonne >= 0 && colonne < n && ligne >= 0 && ligne < n && chiffre >= 1 && chiffre <= n) {
-                    grille[ligne][colonne] = chiffre;
+        scanf("%d %d", &ligne, &chiffre);
 
-                    if (verificationGrille(grille, n) == 0) {
-                        afficher_grille(grille, n);
-                    } else {
-                        printf("La grille contient des erreurs. Veuillez corriger.\n");
-                        grille[ligne][colonne] = 0;
-                    }
-                } else {
-                    printf("Erreur : Colonne, ligne ou chiffre invalides. Veuillez reessayer.\n");
-                }
+        
+        if (colonne >= 0 && colonne < n && ligne >= 0 && ligne < n && chiffre >= 1 && chiffre <= n) {
+            grille[ligne][colonne] = chiffre;
+            if (verificationGrille(grille, n) == 0) {
+                afficher_grille(grille, n);
+            } else {
+                printf("Erreur : Valeur non valide a cause d'une repetition. Veuillez entrer un autre chiffre.\n");
+                grille[ligne][colonne] = 0; 
             }
+        } else {
+            printf("Erreur : Valeurs de ligne/colonne ou chiffre invalides. Reessayez.\n");
         }
     }
-    return 0;    
 }
 
 int main() {
     int grille[9][9];
     int n = 4;
     int choix=0, niveau;
+    int grille_initialisee = 0; 
 
     while (choix != 6) {
         printf("\nMenu :\n");
         printf("1. Choisir la taille de la grille\n");
-        printf("2. Initialiser la grille\n");
+        printf("2. Initialiser la grille manuellement\n");
         printf("3. Generer la grille aleatoirement\n");
-        printf("4. Resoudre la grille manuellement\n");
+        printf("4. Resoudre la grille \n");
         printf("5. Afficher la grille\n");
         printf("6. Quitter\n");
         printf("Choisissez une option : ");
@@ -138,15 +140,21 @@ int main() {
                 scanf("%d", &n);
                 if (n != 4 && n != 9) {
                     printf("Taille invalide. Veuillez choisir 4 ou 9.\n");
-                    n = 9; 
+                    n = 4; 
                 }
                 init_grille(grille, n);
+                grille_initialisee = 1;
                 printf("Grille de taille %dx%d choisie.\n", n, n);
                 break;
 
-            case 2:               
-                init_grille(grille, n);
-                printf("Grille initialisee.\n");
+            case 2:
+                if (grille_initialisee) {
+                    printf("Initialisation manuelle de la grille.\n");
+                    remplirGrille(grille, n); 
+                    afficher_grille(grille, n); 
+                } else {
+                    printf("Veuillez d'abord initialiser la grille.\n");
+                }
                 break;
 
             case 3:                
@@ -158,16 +166,21 @@ int main() {
                 }
                 generer_grille_aleatoire(grille, n, niveau);
                 printf("Grille generee aleatoirement avec le niveau %d.\n", niveau);
-                afficher_grille(grille, n);
+                afficher_grille(grille, n); 
                 break;
 
-            case 4:                
-                remplirGrille(grille, n);
-                afficher_grille(grille, n);
+            case 4:
+                if (grille_initialisee) {
+                    printf("Resoudre la grille.\n");
+                    remplirGrille(grille, n); 
+                    afficher_grille(grille, n); 
+                } else {
+                    printf("Aucune grille à résoudre. Veuillez d'abord initialiser une grille.\n");
+                }
                 break;
 
             case 5:
-                afficher_grille(grille, n);
+                afficher_grille(grille, n); 
                 break;
 
             case 6:
