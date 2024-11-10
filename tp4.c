@@ -1,3 +1,5 @@
+// NOTE : 14/20
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -103,7 +105,7 @@ void remplirGrille(int grille[9][9], int n) {
 
     while (1) {
         printf("Mettre le numero de la colonne (0 a %d), de la ligne (0 a %d) et le chiffre souhaite (1 a %d) (ou entrez -1 pour quitter) : ", n-1, n-1, n);
-        scanf("%d", &colonne);
+        scanf_s("%d", &colonne);
         
         
         if (colonne == -1) {
@@ -111,7 +113,7 @@ void remplirGrille(int grille[9][9], int n) {
             break;
         }
 
-        scanf("%d %d", &ligne, &chiffre);
+        scanf_s("%d %d", &ligne, &chiffre);
 
         
         if (colonne >= 0 && colonne < n && ligne >= 0 && ligne < n && chiffre >= 1 && chiffre <= n) {
@@ -148,12 +150,12 @@ int main() {
         printf("5. Afficher la grille\n");
         printf("6. Quitter\n");
         printf("Choisissez une option : ");
-        scanf("%d", &choix);
+        scanf_s("%d", &choix);
 
         switch (choix) {
             case 1:                
                 printf("Entrez la taille de la grille (4 ou 9) : ");
-                scanf("%d", &n);
+                scanf_s("%d", &n);
                 if (n != 4 && n != 9) {
                     printf("Taille invalide. Veuillez choisir 4 ou 9.\n");
                     n = 4; 
@@ -175,7 +177,7 @@ int main() {
 
             case 3:                
                 printf("Choisissez le niveau de generation (1=moitie, 2=tiers, 3=quart) : ");
-                scanf("%d", &niveau);
+                scanf_s("%d", &niveau);
                 if (niveau < 1 || niveau > 3) {
                     printf("Niveau invalide. Choix par defaut : niveau 1.\n");
                     niveau = 1;
